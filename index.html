@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>M-LEAGUE 速報</title>
+  <!-- スマホの全画面アプリ化設定 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#111827">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; padding: 16px; min-height: 100vh; }
+    
+    /* ヘッダーエリア */
+    .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
+    .title { font-size: 14px; letter-spacing: 2px; color: #94a3b8; font-weight: 700; }
+    .round { font-size: 28px; font-weight: 800; color: #38bdf8; margin: 6px 0; }
+    .updated-at { font-size: 12px; color: #64748b; }
+
+    /* スコアボード（4分割カード） */
+    .scoreboard { display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto; }
+    .player-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 6px solid #64748b; /* チームカラー用 */
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    .player-info { display: flex; flex-direction: column; gap: 4px; }
+    .team-badge { font-size: 11px; font-weight: 700; color: #94a3b8; letter-spacing: 0.5px; }
+    .player-name { font-size: 18px; font-weight: 700; }
+    .score-area { text-align: right; }
+    .score-value { font-size: 24px; font-weight: 800; font-family: "Courier New", monospace; letter-spacing: -0.5px; }
+    .diff-score { font-size: 12px; font-weight: 600; margin-top: 2px; }
+    .diff-plus { color: #f43f5e; }  /* プラスは赤系 */
+    .diff-minus { color: #38bdf8; } /* マイナスは青系 */
+
+    /* チームカラー定義 */
+    .team-abemas { border-left-color: #f59e0b; }
+    .team-fightclub { border-left-color: #ef4444; }
+    .team-sakura { border-left-color: #ec4899; }
+    .team-pirates { border-left-color: #0284c7; }
+    .team-drivens { border-left-color: #10b981; }
+    .team-phoenix { border-left-color: #f97316; }
+    .team-raiden { border-left-color: #eab308; }
+    .team-furinkazan { border-left-color: #b91c1c; }
+    .team-beast { border-left-color: #8b5cf6; }
+
+    /* 接続ステータス */
+    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981; margin-right: 6px; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="title">M-LEAGUE LIVE SCORE</div>
+    <div class="round" id="roundText">待機中</div>
+    <div class="updated-at"><span class="status-dot"></span><span id="updateTime">データ受信待機中</span></div>
+  </div>
+
+  <div class="scoreboard" id="scoreboard">
+    <!-- データ受信時にカードが動的生成されます -->
+  </div>
+
+  <!-- Firebase SDKの読み込み -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+    // データベース接続設定（プロジェクトIDを書き換えてください）
+    const firebaseConfig = {
+      databaseURL: "https://mleague-monitor-default-rtdb.firebaseio.com"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const scoreRef = ref(db, "current");
+
+    // チーム名からCSSクラスを判定
+    function getTeamClass(teamName = "") {
+      if (teamName.includes("ABEMAS")) return "team-abemas";
+      if (teamName.includes("格闘倶楽部")) return "team-fightclub";
+      if (teamName.includes("サクラ")) return "team-sakura";
+      if (teamName.includes("Pirates")) return "team-pirates";
+      if (teamName.includes("ドリブンズ")) return "team-drivens";
+      if (teamName.includes("フェニックス")) return "team-phoenix";
+      if (teamName.includes("雷電")) return "team-raiden";
+      if (teamName.includes("風林火山")) return "team-furinkazan";
+      if (teamName.includes("BEAST")) return "team-beast";
+      return "";
+    }
+
+    // データが更新されたら自動発火
+    onValue(scoreRef, (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+
+      document.getElementById("roundText").innerText = data.round || "対局中";
+      document.getElementById("updateTime").innerText = `最終更新: ${data.updatedAt || ""}`;
+
+      const scoreboard = document.getElementById("scoreboard");
+      scoreboard.innerHTML = "";
+
+      if (data.players && Array.isArray(data.players)) {
+        // 点数の高い順にソートして順位表示
+        const sortedPlayers = [...data.players].sort((a, b) => b.score - a.score);
+
+        sortedPlayers.forEach((player, index) => {
+          const diff = player.score - 25000;
+          const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : `${diff.toLocaleString()}`;
+          const diffClass = diff >= 0 ? "diff-plus" : "diff-minus";
+          const teamClass = getTeamClass(player.team);
+
+          const card = document.createElement("div");
+          card.className = `player-card ${teamClass}`;
+          card.innerHTML = `
+            <div class="player-info">
+              <span class="team-badge">${player.team || "M-LEAGUE"}</span>
+              <span class="player-name">${player.name}</span>
+            </div>
+            <div class="score-area">
+              <div class="score-value">${Number(player.score).toLocaleString()}</div>
+              <div class="diff-score ${diffClass}">${diffText}</div>
+            </div>
+          `;
+          scoreboard.appendChild(card);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
