@@ -14,17 +14,77 @@
     .container { max-width: 520px; margin: 0 auto; }
 
     /* ナビゲーションバー */
-    .nav-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .back-btn { background: #1e293b; color: #38bdf8; border: 1px solid #334155; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
-    .status-badge { font-size: 11px; color: #10b981; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .nav-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .back-btn { background: #1e293b; color: #38bdf8; border: 1px solid #334155; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+    .status-badge { font-size: 11px; padding: 4px 10px; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .badge-live { color: #10b981; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-off { color: #94a3b8; background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.2); }
     .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
 
-    /* ヘッダー */
-    .page-header { text-align: center; margin-bottom: 20px; }
-    .sub-title { font-size: 12px; letter-spacing: 2px; color: #64748b; font-weight: 800; text-transform: uppercase; }
-    .main-title { font-size: 22px; font-weight: 900; color: #f8fafc; margin: 4px 0; }
+    /* 日付スライダーUI */
+    .slider-card {
+      background: #151d30;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+    .slider-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .slider-title { font-size: 12px; color: #94a3b8; font-weight: 700; }
+    .slider-date-display { font-size: 15px; color: #38bdf8; font-weight: 800; }
+    .custom-range {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #334155;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+      border: 2px solid #ffffff;
+      cursor: pointer;
+    }
+    .slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: #64748b; margin-top: 6px; font-weight: 600; }
+    .today-jump-btn { background: transparent; border: none; color: #38bdf8; font-size: 11px; font-weight: 700; cursor: pointer; text-decoration: underline; }
 
-    /* 卓カード（トップページ用） */
+    /* ヘッダー */
+    .page-header { text-align: center; margin-bottom: 16px; }
+    .sub-title { font-size: 12px; letter-spacing: 2px; color: #64748b; font-weight: 800; text-transform: uppercase; }
+    .main-title { font-size: 20px; font-weight: 900; color: #f8fafc; margin: 4px 0; }
+
+    /* 対戦カード表示ボックス（スライダー連動） */
+    .matchup-box {
+      background: #1a233a;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      border-left: 4px solid #38bdf8;
+    }
+    .matchup-header { font-size: 12px; color: #94a3b8; font-weight: 700; margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .matchup-teams-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+    .team-chip { font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: #0f172a; border: 1px solid #334155; color: #f1f5f9; }
+
+    /* 対局なし表示カード */
+    .no-match-card {
+      background: #151d30;
+      border-radius: 16px;
+      padding: 36px 20px;
+      text-align: center;
+      border: 1px solid #1e293b;
+      margin-top: 10px;
+    }
+    .no-match-icon { font-size: 38px; margin-bottom: 10px; }
+    .no-match-title { font-size: 17px; font-weight: 800; color: #f1f5f9; margin-bottom: 6px; }
+    .no-match-desc { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+    /* 卓カード */
     .table-card {
       background: #151d30;
       border-radius: 16px;
@@ -32,12 +92,10 @@
       margin-bottom: 20px;
       border: 1px solid #1e293b;
       cursor: pointer;
-      transition: transform 0.15s, border-color 0.15s;
+      transition: transform 0.15s;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
     .table-card:active { transform: scale(0.98); }
-
-    /* 白卓・黒卓のアクセント装飾 */
     .card-white { border-top: 4px solid #f8fafc; }
     .card-black { border-top: 4px solid #6366f1; }
 
@@ -45,10 +103,9 @@
     .table-badge { font-size: 13px; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
     .badge-white { background: #f8fafc; color: #0b0f19; }
     .badge-black { background: #1e1b4b; color: #a5b4fc; border: 1px solid #4338ca; }
-
     .current-round { font-size: 16px; font-weight: 800; color: #38bdf8; }
 
-    /* プレイヤー行（トップ画面用） */
+    /* プレイヤー行 */
     .players-list { display: flex; flex-direction: column; gap: 8px; }
     .player-row {
       display: flex;
@@ -67,20 +124,13 @@
     .diff-score { font-size: 11px; font-weight: 700; }
     .diff-plus { color: #f43f5e; }
     .diff-minus { color: #38bdf8; }
-
     .card-footer { text-align: right; margin-top: 12px; font-size: 12px; color: #38bdf8; font-weight: 700; }
 
-    /* 詳細画面（点棒推移） */
+    /* 詳細画面（点棒履歴） */
     .history-section { display: flex; flex-direction: column; gap: 14px; }
-    .history-card {
-      background: #151d30;
-      border-radius: 14px;
-      padding: 16px;
-      border: 1px solid #243049;
-    }
+    .history-card { background: #151d30; border-radius: 14px; padding: 16px; border: 1px solid #243049; }
     .history-round { font-size: 15px; font-weight: 800; color: #38bdf8; margin-bottom: 10px; display: flex; justify-content: space-between; }
     .history-time { font-size: 11px; color: #64748b; font-weight: normal; }
-
     .history-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .history-player { background: #1a233a; padding: 8px 10px; border-radius: 8px; border-left: 3px solid #64748b; }
     .history-name { font-size: 13px; font-weight: 700; }
@@ -97,63 +147,93 @@
     .team-furinkazan { border-left-color: #b91c1c; }
     .team-beast { border-left-color: #8b5cf6; }
 
-    .hidden { display: none; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
   <div class="container">
     
-    <!-- ==================== トップ画面（2卓一覧） ==================== -->
+    <!-- トップ画面 -->
     <div id="view-top">
       <div class="nav-bar">
-        <span class="sub-title">M-LEAGUE MATCH DAY</span>
-        <span class="status-badge"><span class="status-dot"></span>LIVE更新中</span>
+        <span class="sub-title">M-LEAGUE LIVE</span>
+        <span class="status-badge badge-live" id="top-status-badge"><span class="status-dot"></span>日程解析中...</span>
       </div>
+
+      <!-- 日付選択スライダー -->
+      <div class="slider-card">
+        <div class="slider-meta">
+          <span class="slider-title">対局日選択</span>
+          <span class="slider-date-display" id="slider-date-text">----年--月--日</span>
+        </div>
+        <input type="range" id="date-slider" min="0" max="28" value="14" class="custom-range">
+        <div class="slider-labels">
+          <span>-14日</span>
+          <button class="today-jump-btn" onclick="jumpToToday()">今日へ</button>
+          <span>+14日</span>
+        </div>
+      </div>
+
       <div class="page-header">
-        <h1 class="main-title">本日の試合速報</h1>
-        <p style="font-size: 12px; color: #64748b;">タップすると各局の点棒推移を確認できます</p>
+        <h1 class="main-title" id="page-title-text">対戦カード</h1>
+        <p style="font-size: 12px; color: #64748b;" id="sub-header-msg">スライダーで指定した日程のカードを表示しています</p>
       </div>
 
-      <!-- 白卓カード -->
-      <div class="table-card card-white" onclick="showDetail('white')">
-        <div class="table-head">
-          <span class="table-badge badge-white">⚪ 白 卓</span>
-          <span class="current-round" id="white-round">データ待機中</span>
+      <!-- 対戦カード（チーム一覧）表示領域 -->
+      <div id="matchup-container"></div>
+
+      <!-- 対局なし表示カード -->
+      <div id="no-match-view" class="no-match-card hidden">
+        <div class="no-match-icon">🀄</div>
+        <div class="no-match-title">本日の速報はありません</div>
+        <div class="no-match-desc" id="no-match-reason">
+          指定された日に対局予定はありません。
         </div>
-        <div class="players-list" id="white-players">
-          <p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">配信の開始を待機しています...</p>
-        </div>
-        <div class="card-footer">点棒の動きを見る →</div>
       </div>
 
-      <!-- 黒卓カード -->
-      <div class="table-card card-black" onclick="showDetail('black')">
-        <div class="table-head">
-          <span class="table-badge badge-black">⚫ 黒 卓</span>
-          <span class="current-round" id="black-round">データ待機中</span>
+      <!-- リアルタイム卓状況（当日選択時のみ連動表示） -->
+      <div id="live-tables-container" class="hidden">
+        <div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin: 18px 0 10px 4px;">▼ 現在のリアルタイム速報</div>
+        
+        <!-- 白卓カード -->
+        <div class="table-card card-white" onclick="showDetail('white')">
+          <div class="table-head">
+            <span class="table-badge badge-white">⚪ 白 卓</span>
+            <span class="current-round" id="white-round">データ待機中</span>
+          </div>
+          <div class="players-list" id="white-players">
+            <p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">配信の開始を待機しています...</p>
+          </div>
+          <div class="card-footer">点棒の動きを見る →</div>
         </div>
-        <div class="players-list" id="black-players">
-          <p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">配信の開始を待機しています...</p>
+
+        <!-- 黒卓カード -->
+        <div class="table-card card-black" onclick="showDetail('black')">
+          <div class="table-head">
+            <span class="table-badge badge-black">⚫ 黒 卓</span>
+            <span class="current-round" id="black-round">データ待機中</span>
+          </div>
+          <div class="players-list" id="black-players">
+            <p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">配信の開始を待機しています...</p>
+          </div>
+          <div class="card-footer">点棒の動きを見る →</div>
         </div>
-        <div class="card-footer">点棒の動きを見る →</div>
       </div>
     </div>
 
-    <!-- ==================== 詳細画面（点棒推移） ==================== -->
+    <!-- 詳細画面（点棒推移） -->
     <div id="view-detail" class="hidden">
       <div class="nav-bar">
         <button class="back-btn" onclick="showTop()">← 卓一覧へ戻る</button>
-        <span class="status-badge" id="detail-table-title">白卓 速報</span>
+        <span class="status-badge badge-live" id="detail-table-title">白卓 速報</span>
       </div>
       <div class="page-header" style="text-align: left; margin-bottom: 14px;">
         <h2 class="main-title" id="detail-heading">点棒推移ログ</h2>
         <p style="font-size: 12px; color: #64748b;">東1局から現在までの点棒変動履歴</p>
       </div>
 
-      <div class="history-section" id="history-container">
-        <!-- 履歴カードが動的追加されます -->
-      </div>
+      <div class="history-section" id="history-container"></div>
     </div>
 
   </div>
@@ -176,8 +256,23 @@
       black: { current: null, history: [] }
     };
     let currentDetailView = null;
+    let scheduleMap = {}; // "YYYY-MM-DD" -> { hasMatch: bool, tables: [ { name: "白卓", teams: [...] } ] }
 
-    // チーム名によるクラス判定
+    const M_LEAGUE_TEAMS = [
+      "赤坂ドリブンズ", "EX風林火山", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部",
+      "渋谷ABEMAS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電", "U-NEXT Pirates", "BEAST X"
+    ];
+
+    // 日付配列の生成（前後14日間：計29日）
+    const sliderDates = [];
+    const todayObj = new Date();
+    for (let i = -14; i <= 14; i++) {
+      const d = new Date(todayObj);
+      d.setDate(todayObj.getDate() + i);
+      sliderDates.push(d);
+    }
+    const todayIndex = 14;
+
     function getTeamClass(name = "") {
       if (name.includes("ABEMAS")) return "team-abemas";
       if (name.includes("格闘倶楽部")) return "team-fightclub";
@@ -191,7 +286,130 @@
       return "";
     }
 
-    // 卓カードのプレイヤー一覧を描画
+    function formatDateKey(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    // 公式サイトから対局スケジュールをパース
+    async function loadOfficialSchedule() {
+      const targetUrl = "https://m-league.jp/games";
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+
+      try {
+        const res = await fetch(proxyUrl);
+        if (!res.ok) throw new Error("公式サイト情報の取得に失敗");
+        const json = await res.json();
+        const html = json.contents;
+
+        // 日付とチームのマッチング解析
+        sliderDates.forEach(dateObj => {
+          const m = dateObj.getMonth() + 1;
+          const d = dateObj.getDate();
+          const y = dateObj.getFullYear();
+          const key = formatDateKey(dateObj);
+
+          // 検索パターン（例: "10月3日", "10/3", "10.03"）
+          const patterns = [`${m}月${d}日`, `${m}/${d}`, `${String(m).padStart(2, '0')}.${String(d).padStart(2, '0')}`];
+          const found = patterns.some(p => html.includes(p));
+
+          if (found) {
+            // ページから近傍のチーム名を抽出
+            const foundTeams = M_LEAGUE_TEAMS.filter(team => {
+              const shortName = team.replace("赤坂", "").replace("EX", "").replace("KADOKAWA", "").replace("KONAMI", "").replace("渋谷", "").replace("セガサミー", "").replace("TEAM RAIDEN / ", "").replace("U-NEXT ", "");
+              return html.includes(shortName);
+            });
+
+            scheduleMap[key] = {
+              hasMatch: true,
+              tables: [
+                { name: "⚪ 白卓", teams: foundTeams.slice(0, 4) },
+                { name: "⚫ 黒卓", teams: foundTeams.slice(4, 8) }
+              ]
+            };
+          } else {
+            scheduleMap[key] = { hasMatch: false, tables: [] };
+          }
+        });
+      } catch (err) {
+        console.warn("スケジュール解析に失敗したため基本表示を使用します:", err);
+      } finally {
+        updateViewBySlider(slider.value);
+      }
+    }
+
+    // スライダー位置に基づく画面更新
+    function updateViewBySlider(index) {
+      const targetDate = sliderDates[index];
+      const key = formatDateKey(targetDate);
+      const isToday = (index == todayIndex);
+
+      const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+      const dateDisplayStr = `${targetDate.getFullYear()}年${targetDate.getMonth() + 1}月${targetDate.getDate()}日(${weekdays[targetDate.getDay()]})`;
+      document.getElementById("slider-date-text").innerText = dateDisplayStr + (isToday ? "【今日】" : "");
+
+      const badge = document.getElementById("top-status-badge");
+      const matchupContainer = document.getElementById("matchup-container");
+      const noMatchView = document.getElementById("no-match-view");
+      const liveContainer = document.getElementById("live-tables-container");
+      const noMatchReason = document.getElementById("no-match-reason");
+
+      const matchData = scheduleMap[key];
+      matchupContainer.innerHTML = "";
+
+      if (matchData && matchData.hasMatch) {
+        badge.className = "status-badge badge-live";
+        badge.innerHTML = `<span class="status-dot"></span>対局日`;
+        noMatchView.classList.add("hidden");
+
+        // 対戦カードの描画
+        matchData.tables.forEach(table => {
+          if (!table.teams || table.teams.length === 0) return;
+          const box = document.createElement("div");
+          box.className = "matchup-box";
+
+          const chips = table.teams.map(t => `<span class="team-chip ${getTeamClass(t)}">${t}</span>`).join("");
+          box.innerHTML = `
+            <div class="matchup-header">
+              <span style="font-weight: 800; color: #f8fafc;">${table.name} 対戦カード</span>
+              <span>19:00 開始予定</span>
+            </div>
+            <div class="matchup-teams-grid">${chips}</div>
+          `;
+          matchupContainer.appendChild(box);
+        });
+
+        // 今日の場合はリアルタイム速報も展開
+        if (isToday) {
+          liveContainer.classList.remove("hidden");
+        } else {
+          liveContainer.classList.add("hidden");
+        }
+      } else {
+        badge.className = "status-badge badge-off";
+        badge.innerHTML = `対局なし`;
+        noMatchView.classList.remove("hidden");
+        liveContainer.classList.add("hidden");
+        noMatchReason.innerText = isToday 
+          ? "本日はMリーグの対局予定はありません。" 
+          : `${dateDisplayStr} に予定されている対局はありません。`;
+      }
+    }
+
+    // スライダー操作イベント
+    const slider = document.getElementById("date-slider");
+    slider.addEventListener("input", (e) => {
+      updateViewBySlider(e.target.value);
+    });
+
+    window.jumpToToday = function() {
+      slider.value = todayIndex;
+      updateViewBySlider(todayIndex);
+    };
+
+    // 卓カードのプレイヤー一覧描画
     function renderPlayerList(containerId, roundId, data) {
       if (!data || !data.players) return;
       document.getElementById(roundId).innerText = data.round || "対局中";
@@ -221,7 +439,7 @@
       });
     }
 
-    // 点棒推移タイムラインを描画
+    // 点棒推移タイムライン描画
     function renderHistory(tableKey) {
       const container = document.getElementById("history-container");
       container.innerHTML = "";
@@ -232,7 +450,6 @@
         return;
       }
 
-      // 新しい局が上に来るように逆順表示
       [...history].reverse().forEach(item => {
         const card = document.createElement("div");
         card.className = "history-card";
@@ -258,7 +475,7 @@
       });
     }
 
-    // 画面切り替え（SPAルーティング）
+    // 画面遷移（SPA）
     window.showDetail = function(tableKey) {
       currentDetailView = tableKey;
       location.hash = tableKey;
@@ -281,7 +498,6 @@
       window.scrollTo(0, 0);
     };
 
-    // ハッシュ変更監視（ブラウザの「戻る」ボタン対応）
     window.addEventListener("hashchange", () => {
       const hash = location.hash.replace("#", "");
       if (hash === "white" || hash === "black") {
@@ -291,32 +507,33 @@
       }
     });
 
-    // Firebase リアルタイムリスナー
+    // Firebase リアルタイム同期
     ["white", "black"].forEach(key => {
       onValue(ref(db, `tables/${key}`), (snapshot) => {
         const val = snapshot.val();
         if (!val) return;
 
-        // 履歴形式の正規化（配列またはオブジェクト対応）
         const historyList = val.history ? Object.values(val.history) : [];
         tablesData[key] = {
           current: val.current || null,
           history: historyList
         };
 
-        // トップ画面を更新
         if (val.current) {
           renderPlayerList(`${key}-players`, `${key}-round`, val.current);
         }
 
-        // 詳細画面を開いている場合はリアルタイム再描画
         if (currentDetailView === key) {
           renderHistory(key);
         }
       });
     });
 
-    // 初期化時のURLハッシュ判定
+    // 初期起動
+    slider.value = todayIndex;
+    updateViewBySlider(todayIndex);
+    loadOfficialSchedule();
+
     if (location.hash === "#white" || location.hash === "#black") {
       showDetail(location.hash.replace("#", ""));
     }
