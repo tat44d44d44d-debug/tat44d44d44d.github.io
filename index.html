@@ -3,44 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>M-LEAGUE 速報</title>
-  <!-- スマホの全画面アプリ化設定 -->
+  <title>M-LEAGUE 速報ボード</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#111827">
+  <meta name="theme-color" content="#0b0f19">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #0f172a; color: #f8fafc; padding: 16px; min-height: 100vh; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", sans-serif; }
+    body { background-color: #0b0f19; color: #f1f5f9; padding: 16px; min-height: 100vh; }
     
-    /* ヘッダーエリア */
-    .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
-    .title { font-size: 14px; letter-spacing: 2px; color: #94a3b8; font-weight: 700; }
-    .round { font-size: 28px; font-weight: 800; color: #38bdf8; margin: 6px 0; }
-    .updated-at { font-size: 12px; color: #64748b; }
+    .container { max-width: 520px; margin: 0 auto; }
 
-    /* スコアボード（4分割カード） */
-    .scoreboard { display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto; }
-    .player-card {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 14px 18px;
+    /* ナビゲーションバー */
+    .nav-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .back-btn { background: #1e293b; color: #38bdf8; border: 1px solid #334155; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+    .status-badge { font-size: 11px; color: #10b981; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
+
+    /* ヘッダー */
+    .page-header { text-align: center; margin-bottom: 20px; }
+    .sub-title { font-size: 12px; letter-spacing: 2px; color: #64748b; font-weight: 800; text-transform: uppercase; }
+    .main-title { font-size: 22px; font-weight: 900; color: #f8fafc; margin: 4px 0; }
+
+    /* 卓カード（トップページ用） */
+    .table-card {
+      background: #151d30;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 20px;
+      border: 1px solid #1e293b;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .table-card:active { transform: scale(0.98); }
+
+    /* 白卓・黒卓のアクセント装飾 */
+    .card-white { border-top: 4px solid #f8fafc; }
+    .card-black { border-top: 4px solid #6366f1; }
+
+    .table-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #243049; }
+    .table-badge { font-size: 13px; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
+    .badge-white { background: #f8fafc; color: #0b0f19; }
+    .badge-black { background: #1e1b4b; color: #a5b4fc; border: 1px solid #4338ca; }
+
+    .current-round { font-size: 16px; font-weight: 800; color: #38bdf8; }
+
+    /* プレイヤー行（トップ画面用） */
+    .players-list { display: flex; flex-direction: column; gap: 8px; }
+    .player-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-left: 6px solid #64748b; /* チームカラー用 */
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s, background-color 0.2s;
+      background: #1a233a;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border-left: 4px solid #64748b;
     }
-    .player-info { display: flex; flex-direction: column; gap: 4px; }
-    .team-badge { font-size: 11px; font-weight: 700; color: #94a3b8; letter-spacing: 0.5px; }
-    .player-name { font-size: 18px; font-weight: 700; }
-    .score-area { text-align: right; }
-    .score-value { font-size: 24px; font-weight: 800; font-family: "Courier New", monospace; letter-spacing: -0.5px; }
-    .diff-score { font-size: 12px; font-weight: 600; margin-top: 2px; }
-    .diff-plus { color: #f43f5e; }  /* プラスは赤系 */
-    .diff-minus { color: #38bdf8; } /* マイナスは青系 */
+    .player-meta { display: flex; flex-direction: column; }
+    .team-name { font-size: 11px; color: #94a3b8; font-weight: 700; }
+    .player-name { font-size: 15px; font-weight: 700; color: #f1f5f9; }
+    .score-meta { text-align: right; }
+    .score-val { font-size: 18px; font-weight: 800; font-family: "Courier New", monospace; }
+    .diff-score { font-size: 11px; font-weight: 700; }
+    .diff-plus { color: #f43f5e; }
+    .diff-minus { color: #38bdf8; }
 
-    /* チームカラー定義 */
+    .card-footer { text-align: right; margin-top: 12px; font-size: 12px; color: #38bdf8; font-weight: 700; }
+
+    /* 詳細画面（点棒推移） */
+    .history-section { display: flex; flex-direction: column; gap: 14px; }
+    .history-card {
+      background: #151d30;
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid #243049;
+    }
+    .history-round { font-size: 15px; font-weight: 800; color: #38bdf8; margin-bottom: 10px; display: flex; justify-content: space-between; }
+    .history-time { font-size: 11px; color: #64748b; font-weight: normal; }
+
+    .history-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .history-player { background: #1a233a; padding: 8px 10px; border-radius: 8px; border-left: 3px solid #64748b; }
+    .history-name { font-size: 13px; font-weight: 700; }
+    .history-score { font-size: 15px; font-weight: 800; font-family: "Courier New", monospace; margin-top: 2px; }
+
+    /* チームカラー */
     .team-abemas { border-left-color: #f59e0b; }
     .team-fightclub { border-left-color: #ef4444; }
     .team-sakura { border-left-color: #ec4899; }
@@ -51,87 +97,229 @@
     .team-furinkazan { border-left-color: #b91c1c; }
     .team-beast { border-left-color: #8b5cf6; }
 
-    /* 接続ステータス */
-    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981; margin-right: 6px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="title">M-LEAGUE LIVE SCORE</div>
-    <div class="round" id="roundText">待機中</div>
-    <div class="updated-at"><span class="status-dot"></span><span id="updateTime">データ受信待機中</span></div>
+  <div class="container">
+    
+    <!-- ==================== トップ画面（2卓一覧） ==================== -->
+    <div id="view-top">
+      <div class="nav-bar">
+        <span class="sub-title">M-LEAGUE MATCH DAY</span>
+        <span class="status-badge"><span class="status-dot"></span>LIVE更新中</span>
+      </div>
+      <div class="page-header">
+        <h1 class="main-title">本日の試合速報</h1>
+        <p style="font-size: 12px; color: #64748b;">タップすると各局の点棒推移を確認できます</p>
+      </div>
+
+      <!-- 白卓カード -->
+      <div class="table-card card-white" onclick="showDetail('white')">
+        <div class="table-head">
+          <span class="table-badge badge-white">⚪ 白 卓</span>
+          <span class="current-round" id="white-round">データ待機中</span>
+        </div>
+        <div class="players-list" id="white-players">
+          <p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">配信の開始を待機しています...</p>
+        </div>
+        <div class="card-footer">点棒の動きを見る →</div>
+      </div>
+
+      <!-- 黒卓カード -->
+      <div class="table-card card-black" onclick="showDetail('black')">
+        <div class="table-head">
+          <span class="table-badge badge-black">⚫ 黒 卓</span>
+          <span class="current-round" id="black-round">データ待機中</span>
+        </div>
+        <div class="players-list" id="black-players">
+          <p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">配信の開始を待機しています...</p>
+        </div>
+        <div class="card-footer">点棒の動きを見る →</div>
+      </div>
+    </div>
+
+    <!-- ==================== 詳細画面（点棒推移） ==================== -->
+    <div id="view-detail" class="hidden">
+      <div class="nav-bar">
+        <button class="back-btn" onclick="showTop()">← 卓一覧へ戻る</button>
+        <span class="status-badge" id="detail-table-title">白卓 速報</span>
+      </div>
+      <div class="page-header" style="text-align: left; margin-bottom: 14px;">
+        <h2 class="main-title" id="detail-heading">点棒推移ログ</h2>
+        <p style="font-size: 12px; color: #64748b;">東1局から現在までの点棒変動履歴</p>
+      </div>
+
+      <div class="history-section" id="history-container">
+        <!-- 履歴カードが動的追加されます -->
+      </div>
+    </div>
+
   </div>
 
-  <div class="scoreboard" id="scoreboard">
-    <!-- データ受信時にカードが動的生成されます -->
-  </div>
-
-  <!-- Firebase SDKの読み込み -->
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
-    // データベース接続設定（プロジェクトIDを書き換えてください）
+    // ※ あなたのFirebaseプロジェクトIDに書き換えてください
     const firebaseConfig = {
       databaseURL: "https://mleague-monitor-default-rtdb.firebaseio.com"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const scoreRef = ref(db, "current");
 
-    // チーム名からCSSクラスを判定
-    function getTeamClass(teamName = "") {
-      if (teamName.includes("ABEMAS")) return "team-abemas";
-      if (teamName.includes("格闘倶楽部")) return "team-fightclub";
-      if (teamName.includes("サクラ")) return "team-sakura";
-      if (teamName.includes("Pirates")) return "team-pirates";
-      if (teamName.includes("ドリブンズ")) return "team-drivens";
-      if (teamName.includes("フェニックス")) return "team-phoenix";
-      if (teamName.includes("雷電")) return "team-raiden";
-      if (teamName.includes("風林火山")) return "team-furinkazan";
-      if (teamName.includes("BEAST")) return "team-beast";
+    let tablesData = {
+      white: { current: null, history: [] },
+      black: { current: null, history: [] }
+    };
+    let currentDetailView = null;
+
+    // チーム名によるクラス判定
+    function getTeamClass(name = "") {
+      if (name.includes("ABEMAS")) return "team-abemas";
+      if (name.includes("格闘倶楽部")) return "team-fightclub";
+      if (name.includes("サクラ")) return "team-sakura";
+      if (name.includes("Pirates")) return "team-pirates";
+      if (name.includes("ドリブンズ")) return "team-drivens";
+      if (name.includes("フェニックス")) return "team-phoenix";
+      if (name.includes("雷電")) return "team-raiden";
+      if (name.includes("風林火山")) return "team-furinkazan";
+      if (name.includes("BEAST")) return "team-beast";
       return "";
     }
 
-    // データが更新されたら自動発火
-    onValue(scoreRef, (snapshot) => {
-      const data = snapshot.val();
-      if (!data) return;
+    // 卓カードのプレイヤー一覧を描画
+    function renderPlayerList(containerId, roundId, data) {
+      if (!data || !data.players) return;
+      document.getElementById(roundId).innerText = data.round || "対局中";
 
-      document.getElementById("roundText").innerText = data.round || "対局中";
-      document.getElementById("updateTime").innerText = `最終更新: ${data.updatedAt || ""}`;
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
 
-      const scoreboard = document.getElementById("scoreboard");
-      scoreboard.innerHTML = "";
+      const sorted = [...data.players].sort((a, b) => b.score - a.score);
+      sorted.forEach(p => {
+        const diff = p.score - 25000;
+        const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : `${diff.toLocaleString()}`;
+        const diffClass = diff >= 0 ? "diff-plus" : "diff-minus";
 
-      if (data.players && Array.isArray(data.players)) {
-        // 点数の高い順にソートして順位表示
-        const sortedPlayers = [...data.players].sort((a, b) => b.score - a.score);
+        const row = document.createElement("div");
+        row.className = `player-row ${getTeamClass(p.team)}`;
+        row.innerHTML = `
+          <div class="player-meta">
+            <span class="team-name">${p.team || "M-LEAGUE"}</span>
+            <span class="player-name">${p.name}</span>
+          </div>
+          <div class="score-meta">
+            <div class="score-val">${Number(p.score).toLocaleString()}</div>
+            <div class="diff-score ${diffClass}">${diffText}</div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
 
-        sortedPlayers.forEach((player, index) => {
-          const diff = player.score - 25000;
-          const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : `${diff.toLocaleString()}`;
-          const diffClass = diff >= 0 ? "diff-plus" : "diff-minus";
-          const teamClass = getTeamClass(player.team);
+    // 点棒推移タイムラインを描画
+    function renderHistory(tableKey) {
+      const container = document.getElementById("history-container");
+      container.innerHTML = "";
+      const history = tablesData[tableKey].history || [];
 
-          const card = document.createElement("div");
-          card.className = `player-card ${teamClass}`;
-          card.innerHTML = `
-            <div class="player-info">
-              <span class="team-badge">${player.team || "M-LEAGUE"}</span>
-              <span class="player-name">${player.name}</span>
-            </div>
-            <div class="score-area">
-              <div class="score-value">${Number(player.score).toLocaleString()}</div>
-              <div class="diff-score ${diffClass}">${diffText}</div>
+      if (history.length === 0) {
+        container.innerHTML = `<p style="color: #64748b; text-align: center; padding: 30px;">まだ点棒推移データがありません。</p>`;
+        return;
+      }
+
+      // 新しい局が上に来るように逆順表示
+      [...history].reverse().forEach(item => {
+        const card = document.createElement("div");
+        card.className = "history-card";
+
+        let gridHtml = "";
+        item.players.forEach(p => {
+          gridHtml += `
+            <div class="history-player ${getTeamClass(p.team)}">
+              <div class="history-name">${p.name}</div>
+              <div class="history-score">${Number(p.score).toLocaleString()}</div>
             </div>
           `;
-          scoreboard.appendChild(card);
         });
+
+        card.innerHTML = `
+          <div class="history-round">
+            <span>${item.round}</span>
+            <span class="history-time">${item.updatedAt || ""}</span>
+          </div>
+          <div class="history-grid">${gridHtml}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 画面切り替え（SPAルーティング）
+    window.showDetail = function(tableKey) {
+      currentDetailView = tableKey;
+      location.hash = tableKey;
+      document.getElementById("view-top").classList.add("hidden");
+      document.getElementById("view-detail").classList.remove("hidden");
+
+      const title = tableKey === "white" ? "⚪ 白卓 詳細" : "⚫ 黒卓 詳細";
+      document.getElementById("detail-table-title").innerText = title;
+      document.getElementById("detail-heading").innerText = `${title} 点棒推移`;
+
+      renderHistory(tableKey);
+      window.scrollTo(0, 0);
+    };
+
+    window.showTop = function() {
+      currentDetailView = null;
+      location.hash = "";
+      document.getElementById("view-detail").classList.add("hidden");
+      document.getElementById("view-top").classList.remove("hidden");
+      window.scrollTo(0, 0);
+    };
+
+    // ハッシュ変更監視（ブラウザの「戻る」ボタン対応）
+    window.addEventListener("hashchange", () => {
+      const hash = location.hash.replace("#", "");
+      if (hash === "white" || hash === "black") {
+        showDetail(hash);
+      } else {
+        showTop();
       }
     });
+
+    // Firebase リアルタイムリスナー
+    ["white", "black"].forEach(key => {
+      onValue(ref(db, `tables/${key}`), (snapshot) => {
+        const val = snapshot.val();
+        if (!val) return;
+
+        // 履歴形式の正規化（配列またはオブジェクト対応）
+        const historyList = val.history ? Object.values(val.history) : [];
+        tablesData[key] = {
+          current: val.current || null,
+          history: historyList
+        };
+
+        // トップ画面を更新
+        if (val.current) {
+          renderPlayerList(`${key}-players`, `${key}-round`, val.current);
+        }
+
+        // 詳細画面を開いている場合はリアルタイム再描画
+        if (currentDetailView === key) {
+          renderHistory(key);
+        }
+      });
+    });
+
+    // 初期化時のURLハッシュ判定
+    if (location.hash === "#white" || location.hash === "#black") {
+      showDetail(location.hash.replace("#", ""));
+    }
   </script>
 </body>
 </html>
