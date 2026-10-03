@@ -1,0 +1,720 @@
+{
+  "2026-10-05": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "セガサミーフェニックス", "BEAST X", "U-NEXT Pirates"]
+    }
+  },
+  "2026-10-06": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "U-NEXT Pirates"]
+    }
+  },
+  "2026-10-08": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "KADOKAWAサクラナイツ", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "渋谷ABEMAS", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    }
+  },
+  "2026-10-09": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "渋谷ABEMAS", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    }
+  },
+  "2026-10-12": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "TEAM RAIDEN / 雷電"]
+    }
+  },
+  "2026-10-13": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "渋谷ABEMAS", "TEAM RAIDEN / 雷電", "BEAST X"]
+    }
+  },
+  "2026-10-15": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "渋谷ABEMAS", "セガサミーフェニックス"]
+    }
+  },
+  "2026-10-16": {
+    "white": {
+      "time": "19:00",
+      "teams": ["渋谷ABEMAS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "KADOKAWAサクラナイツ", "U-NEXT Pirates"]
+    }
+  },
+  "2026-10-19": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "EX風林火山", "TEAM RAIDEN / 雷電"]
+    }
+  },
+  "2026-10-20": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "KADOKAWAサクラナイツ", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "BEAST X"]
+    }
+  },
+  "2026-10-22": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "渋谷ABEMAS", "セガサミーフェニックス", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "BEAST X"]
+    }
+  },
+  "2026-10-23": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["セガサミーフェニックス", "TEAM RAIDEN / 雷電", "BEAST X", "U-NEXT Pirates"]
+    }
+  },
+  "2026-10-26": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "渋谷ABEMAS", "BEAST X"]
+    }
+  },
+  "2026-10-27": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "BEAST X"]
+    }
+  },
+  "2026-10-29": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "渋谷ABEMAS", "U-NEXT Pirates"]
+    }
+  },
+  "2026-10-30": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "BEAST X", "U-NEXT Pirates"]
+    }
+  },
+  "2026-11-02": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "渋谷ABEMAS", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    }
+  },
+  "2026-11-03": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    }
+  },
+  "2026-11-05": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "渋谷ABEMAS", "セガサミーフェニックス"]
+    }
+  },
+  "2026-11-06": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "セガサミーフェニックス", "U-NEXT Pirates"]
+    }
+  },
+  "2026-11-09": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "セガサミーフェニックス", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電", "BEAST X"]
+    }
+  },
+  "2026-11-10": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "渋谷ABEMAS", "TEAM RAIDEN / 雷電", "BEAST X"]
+    }
+  },
+  "2026-11-12": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "セガサミーフェニックス", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "EX風林火山", "KADOKAWAサクラナイツ"]
+    }
+  },
+  "2026-11-13": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "渋谷ABEMAS", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "セガサミーフェニックス", "TEAM RAIDEN / 雷電", "BEAST X"]
+    }
+  },
+  "2026-11-16": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "渋谷ABEMAS", "TEAM RAIDEN / 雷電"]
+    }
+  },
+  "2026-11-17": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "TEAM RAIDEN / 雷電", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS"]
+    }
+  },
+  "2026-11-19": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    }
+  },
+  "2026-11-20": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "渋谷ABEMAS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KONAMI麻雀格闘倶楽部", "BEAST X", "U-NEXT Pirates"]
+    }
+  },
+  "2026-11-23": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "EX風林火山", "KONAMI麻雀格闘倶楽部"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["渋谷ABEMAS", "セガサミーフェニックス", "BEAST X", "U-NEXT Pirates"]
+    }
+  },
+  "2026-11-24": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "渋谷ABEMAS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "KADOKAWAサクラナイツ", "BEAST X"]
+    }
+  },
+  "2026-11-26": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "渋谷ABEMAS", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    }
+  },
+  "2026-11-27": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "セガサミーフェニックス", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS"]
+    }
+  },
+  "2026-11-30": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "TEAM RAIDEN / 雷電", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "渋谷ABEMAS", "セガサミーフェニックス"]
+    }
+  },
+  "2026-12-01": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "EX風林火山", "セガサミーフェニックス"]
+    }
+  },
+  "2026-12-03": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "KONAMI麻雀格闘倶楽部", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "セガサミーフェニックス", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    }
+  },
+  "2026-12-04": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "TEAM RAIDEN / 雷電", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS"]
+    }
+  },
+  "2026-12-07": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "セガサミーフェニックス"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "TEAM RAIDEN / 雷電", "BEAST X"]
+    }
+  },
+  "2026-12-08": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "KADOKAWAサクラナイツ", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "渋谷ABEMAS", "セガサミーフェニックス", "BEAST X"]
+    }
+  },
+  "2026-12-10": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "渋谷ABEMAS", "TEAM RAIDEN / 雷電", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "U-NEXT Pirates"]
+    }
+  },
+  "2026-12-11": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "セガサミーフェニックス", "U-NEXT Pirates"]
+    }
+  },
+  "2026-12-14": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "渋谷ABEMAS", "U-NEXT Pirates"]
+    }
+  },
+  "2026-12-15": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "渋谷ABEMAS", "TEAM RAIDEN / 雷電"]
+    }
+  },
+  "2026-12-17": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "渋谷ABEMAS", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    }
+  },
+  "2026-12-18": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "渋谷ABEMAS", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    }
+  },
+  "2026-21-21": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "セガサミーフェニックス", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "KONAMI麻雀格闘倶楽部", "BEAST X"]
+    }
+  },
+  "2026-12-22": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "BEAST X", "U-NEXT Pirates"]
+    }
+  },
+  "2026-12-24": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "KADOKAWAサクラナイツ", "渋谷ABEMAS"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KONAMI麻雀格闘倶楽部", "BEAST X", "U-NEXT Pirates"]
+    }
+  },
+  "2026-12-25": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "渋谷ABEMAS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    }
+  },
+  "2027-01-04": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電"]
+    },
+    "black": null
+  },
+  "2027-01-05": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "渋谷ABEMAS", "セガサミーフェニックス"]
+    },
+    "black": null
+  },
+  "2027-01-07": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "セガサミーフェニックス", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-01-08": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電"]
+    },
+    "black": null
+  },
+  "2027-01-11": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "TEAM RAIDEN / 雷電", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-01-12": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-01-14": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-01-15": {
+    "white": {
+      "time": "19:00",
+      "teams": ["渋谷ABEMAS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-01-18": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "EX風林火山", "KONAMI麻雀格闘倶楽部"]
+    },
+    "black": null
+  },
+  "2027-01-19": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-01-21": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "KADOKAWAサクラナイツ", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-01-22": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電"]
+    },
+    "black": null
+  },
+  "2027-01-25": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "渋谷ABEMAS", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-01-26": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    },
+    "black": null
+  },
+  "2027-01-28": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-01-29": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "セガサミーフェニックス", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-02-01": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-02-02": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "渋谷ABEMAS", "TEAM RAIDEN / 雷電"]
+    },
+    "black": null
+  },
+  "2027-02-04": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-02-05": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス"]
+    },
+    "black": null
+  },
+  "2027-02-08": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "渋谷ABEMAS", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-02-09": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "TEAM RAIDEN / 雷電", "BEAST X", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-02-11": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "赤坂ドリブンズ", "EX風林火山", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-02-12": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KONAMI麻雀格闘倶楽部", "渋谷ABEMAS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電"]
+    },
+    "black": null
+  },
+  "2027-02-15": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-02-16": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "渋谷ABEMAS", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-02-18": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-02-19": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-02-22": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EX風林火山", "KADOKAWAサクラナイツ", "渋谷ABEMAS", "TEAM RAIDEN / 雷電"]
+    },
+    "black": null
+  },
+  "2027-02-23": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "KADOKAWAサクラナイツ", "渋谷ABEMAS", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-02-25": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "KONAMI麻雀格闘倶楽部", "TEAM RAIDEN / 雷電", "BEAST X"]
+    },
+    "black": null
+  },
+  "2027-02-26": {
+    "white": {
+      "time": "19:00",
+      "teams": ["EARTH JETS", "EX風林火山", "KONAMI麻雀格闘倶楽部", "セガサミーフェニックス"]
+    },
+    "black": null
+  },
+  "2027-03-01": {
+    "white": {
+      "time": "19:00",
+      "teams": ["KADOKAWAサクラナイツ", "渋谷ABEMAS", "セガサミーフェニックス", "U-NEXT Pirates"]
+    },
+    "black": null
+  },
+  "2027-03-02": {
+    "white": {
+      "time": "19:00",
+      "teams": ["赤坂ドリブンズ", "EX風林火山", "TEAM RAIDEN / 雷電", "BEAST X"]
+    },
+    "black": null
+  }
+}

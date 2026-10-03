@@ -79,9 +79,11 @@
       margin-bottom: 14px;
       border-left: 4px solid #38bdf8;
     }
+    .matchup-box-white { border-left-color: #f8fafc; }
+    .matchup-box-black { border-left-color: #6366f1; }
     .matchup-header { font-size: 13px; color: #94a3b8; font-weight: 700; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .matchup-teams-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-    .team-chip { font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 8px; background: #0f172a; border: 1px solid #334155; color: #f1f5f9; }
+    .matchup-teams-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .team-chip { font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 8px; background: #0f172a; border: 1px solid #334155; color: #f1f5f9; text-align: center; }
 
     /* 対局なし表示カード */
     .no-match-card {
@@ -158,6 +160,7 @@
     .team-raiden { border-left-color: #eab308; }
     .team-furinkazan { border-left-color: #b91c1c; }
     .team-beast { border-left-color: #8b5cf6; }
+    .team-jets { border-left-color: #06b6d4; }
 
     .hidden { display: none !important; }
   </style>
@@ -173,7 +176,7 @@
         <span class="status-badge badge-live" id="top-status-badge"><span class="status-dot"></span>日程確認中...</span>
       </div>
 
-      <!-- 日付送りコントローラー（＜ 日付 ＞） -->
+      <!-- 日付送りコントローラー -->
       <div class="date-controller">
         <button class="arrow-btn" onclick="stepDate(-1)">＜</button>
         <div class="date-center">
@@ -206,7 +209,7 @@
         <div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin: 18px 0 10px 4px;">▼ 現在のリアルタイム速報</div>
         
         <!-- 白卓カード -->
-        <div class="table-card card-white" onclick="showDetail('white')">
+        <div class="table-card card-white" id="live-white-card" onclick="showDetail('white')">
           <div class="table-head">
             <span class="table-badge badge-white">⚪ 白 卓</span>
             <span class="current-round" id="white-round">データ待機中</span>
@@ -218,7 +221,7 @@
         </div>
 
         <!-- 黒卓カード -->
-        <div class="table-card card-black" onclick="showDetail('black')">
+        <div class="table-card card-black" id="live-black-card" onclick="showDetail('black')">
           <div class="table-head">
             <span class="table-badge badge-black">⚫ 黒 卓</span>
             <span class="current-round" id="black-round">データ待機中</span>
@@ -265,14 +268,8 @@
       black: { current: null, history: [] }
     };
     let currentDetailView = null;
-    let cachedScheduleHtml = null; // キャッシュした公式サイトのHTML
+    let scheduleData = null; // schedule.json のキャッシュデータ
 
-    const M_LEAGUE_TEAMS = [
-      "赤坂ドリブンズ", "EX風林火山", "KADOKAWAサクラナイツ", "KONAMI麻雀格闘倶楽部",
-      "渋谷ABEMAS", "セガサミーフェニックス", "TEAM RAIDEN / 雷電", "U-NEXT Pirates", "BEAST X"
-    ];
-
-    // 現在選択中の日付（初期値は今日）
     let activeDate = new Date();
 
     function getTeamClass(name = "") {
@@ -285,6 +282,7 @@
       if (name.includes("雷電")) return "team-raiden";
       if (name.includes("風林火山")) return "team-furinkazan";
       if (name.includes("BEAST")) return "team-beast";
+      if (name.includes("JETS")) return "team-jets";
       return "";
     }
 
@@ -294,25 +292,28 @@
              d1.getDate() === d2.getDate();
     }
 
-    // 公式サイトHTMLの取得（初回フェッチ＋キャッシュ）
-    async function fetchOfficialSchedule() {
-      if (cachedScheduleHtml) return cachedScheduleHtml;
-      const targetUrl = "https://m-league.jp/games";
-      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+    function formatDateKey(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
 
+    // schedule.json の取得
+    async function fetchSchedule() {
+      if (scheduleData) return scheduleData;
       try {
-        const res = await fetch(proxyUrl);
-        if (!res.ok) throw new Error("公式サイト情報の取得に失敗");
-        const json = await res.json();
-        cachedScheduleHtml = json.contents;
-        return cachedScheduleHtml;
+        const res = await fetch('./schedule.json');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        scheduleData = await res.json();
+        return scheduleData;
       } catch (err) {
-        console.warn("スケジュールフェッチエラー:", err);
-        return "";
+        console.error("schedule.json の読み込みに失敗しました:", err);
+        return {};
       }
     }
 
-    // 指定した日付の対戦カードを解析して画面を更新
+    // 該当年月日の対戦カードを描画
     async function loadMatchForDate(targetDate) {
       const isToday = isSameDate(targetDate, new Date());
       const year = targetDate.getFullYear();
@@ -321,7 +322,6 @@
       const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
       const dayOfWeek = weekdays[targetDate.getDay()];
 
-      // 日付表示の更新
       document.getElementById("selected-date-text").innerText = `${year}年${month}月${date}日(${dayOfWeek})`;
       document.getElementById("date-tag-text").innerText = isToday ? "【 本 日 】" : "";
       
@@ -338,58 +338,55 @@
       const noMatchTitle = document.getElementById("no-match-title");
       const noMatchReason = document.getElementById("no-match-reason");
       const liveContainer = document.getElementById("live-tables-container");
+      const liveWhiteCard = document.getElementById("live-white-card");
+      const liveBlackCard = document.getElementById("live-black-card");
 
-      badge.className = "status-badge badge-live";
-      badge.innerHTML = `<span class="status-dot"></span>対戦カード取得中...`;
+      const schedule = await fetchSchedule();
+      const dateKey = formatDateKey(targetDate);
+      const matchDay = schedule[dateKey];
 
-      const html = await fetchOfficialSchedule();
-
-      // 日付の検索パターン（例: "10月3日", "10/3", "10.03"）
-      const patterns = [
-        `${month}月${date}日`,
-        `${month}/${date}`,
-        `${String(month).padStart(2, '0')}.${String(date).padStart(2, '0')}`
-      ];
-
-      const hasMatch = patterns.some(p => html.includes(p));
       matchupContainer.innerHTML = "";
 
-      if (hasMatch) {
+      if (matchDay && (matchDay.white || matchDay.black)) {
         badge.className = "status-badge badge-live";
         badge.innerHTML = `<span class="status-dot"></span>対局日`;
         noMatchView.classList.add("hidden");
 
-        // 該当ページ内からチーム名を特定
-        const foundTeams = M_LEAGUE_TEAMS.filter(team => {
-          const shortName = team.replace("赤坂", "").replace("EX", "").replace("KADOKAWA", "").replace("KONAMI", "").replace("渋谷", "").replace("セガサミー", "").replace("TEAM RAIDEN / ", "").replace("U-NEXT ", "");
-          return html.includes(shortName);
-        });
-
-        // 2卓編成（白卓・黒卓）の対戦カードを組み立て
-        const tables = [
-          { name: "⚪ 白卓 対戦カード", teams: foundTeams.slice(0, 4) },
-          { name: "⚫ 黒卓 対戦カード", teams: foundTeams.slice(4, 8) }
-        ];
-
-        tables.forEach(table => {
-          if (!table.teams || table.teams.length === 0) return;
+        // 白卓の対戦カード表示
+        if (matchDay.white && matchDay.white.teams) {
           const box = document.createElement("div");
-          box.className = "matchup-box";
-
-          const chips = table.teams.map(t => `<span class="team-chip ${getTeamClass(t)}">${t}</span>`).join("");
+          box.className = "matchup-box matchup-box-white";
+          const chips = matchDay.white.teams.map(t => `<div class="team-chip ${getTeamClass(t)}">${t}</div>`).join("");
           box.innerHTML = `
             <div class="matchup-header">
-              <span style="font-weight: 800; color: #f8fafc;">${table.name}</span>
-              <span>19:00 開始予定</span>
+              <span style="font-weight: 800; color: #f8fafc;">⚪ 白卓 対戦カード</span>
+              <span>${matchDay.white.time || "19:00"} 開始予定</span>
             </div>
             <div class="matchup-teams-grid">${chips}</div>
           `;
           matchupContainer.appendChild(box);
-        });
+        }
 
-        // 当日の場合のみ、点棒速報カードを展開
+        // 黒卓の対戦カード表示（2卓開催時のみ）
+        if (matchDay.black && matchDay.black.teams) {
+          const box = document.createElement("div");
+          box.className = "matchup-box matchup-box-black";
+          const chips = matchDay.black.teams.map(t => `<div class="team-chip ${getTeamClass(t)}">${t}</div>`).join("");
+          box.innerHTML = `
+            <div class="matchup-header">
+              <span style="font-weight: 800; color: #f8fafc;">⚫ 黒卓 対戦カード</span>
+              <span>${matchDay.black.time || "19:00"} 開始予定</span>
+            </div>
+            <div class="matchup-teams-grid">${chips}</div>
+          `;
+          matchupContainer.appendChild(box);
+        }
+
+        // 今日の場合、リアルタイム速報カードを表示連動
         if (isToday) {
           liveContainer.classList.remove("hidden");
+          if (matchDay.white) liveWhiteCard.classList.remove("hidden"); else liveWhiteCard.classList.add("hidden");
+          if (matchDay.black) liveBlackCard.classList.remove("hidden"); else liveBlackCard.classList.add("hidden");
         } else {
           liveContainer.classList.add("hidden");
         }
@@ -401,7 +398,7 @@
 
         if (isToday) {
           noMatchTitle.innerText = "本日の速報はありません";
-          noMatchReason.innerText = "公式サイトを確認したところ、本日予定されている対局はありません。";
+          noMatchReason.innerText = "本日予定されているMリーグの対局はありません。";
         } else {
           noMatchTitle.innerText = "対局予定はありません";
           noMatchReason.innerText = `${month}月${date}日(${dayOfWeek}) に予定されている対局はありません。`;
@@ -409,13 +406,13 @@
       }
     }
 
-    // 日付送りボタン（＜ ＞）の処理
+    // 日付送りボタン（＜ ＞）
     window.stepDate = function(offset) {
       activeDate.setDate(activeDate.getDate() + offset);
       loadMatchForDate(activeDate);
     };
 
-    // 今日へ戻るボタンの処理
+    // 今日へ戻るボタン
     window.setToday = function() {
       activeDate = new Date();
       loadMatchForDate(activeDate);
@@ -487,7 +484,7 @@
       });
     }
 
-    // 画面遷移（SPA）
+    // 画面遷移（SPAルーティング）
     window.showDetail = function(tableKey) {
       currentDetailView = tableKey;
       location.hash = tableKey;
@@ -541,7 +538,7 @@
       });
     });
 
-    // 初期起動（今日の日付で対戦カードを取得）
+    // 初期化実行
     loadMatchForDate(activeDate);
 
     if (location.hash === "#white" || location.hash === "#black") {
