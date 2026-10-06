@@ -21,7 +21,7 @@
     .badge-off { color: #94a3b8; background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.2); }
     .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
 
-    /* 日付送りUI（＜ 日付 ＞） */
+    /* 日付送りUI */
     .date-controller {
       background: #151d30;
       border: 1px solid #1e293b;
@@ -71,6 +71,27 @@
     .sub-title { font-size: 12px; letter-spacing: 2px; color: #64748b; font-weight: 800; text-transform: uppercase; }
     .main-title { font-size: 20px; font-weight: 900; color: #f8fafc; margin: 4px 0; }
 
+    /* 試合切り替えタブ（第1試合／第2試合） */
+    .game-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+    .game-tab-btn {
+      flex: 1;
+      padding: 7px 10px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .game-tab-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+
     /* 対戦カードボックス */
     .matchup-box {
       background: #1a233a;
@@ -85,7 +106,7 @@
     .matchup-teams-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
     .team-chip { font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 8px; background: #0f172a; border: 1px solid #334155; color: #f1f5f9; text-align: center; }
 
-    /* 対局なし表示カード */
+    /* 対局なしカード */
     .no-match-card {
       background: #151d30;
       border-radius: 16px;
@@ -105,11 +126,8 @@
       padding: 18px;
       margin-bottom: 20px;
       border: 1px solid #1e293b;
-      cursor: pointer;
-      transition: transform 0.15s;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
-    .table-card:active { transform: scale(0.98); }
     .card-white { border-top: 4px solid #f8fafc; }
     .card-black { border-top: 4px solid #6366f1; }
 
@@ -138,7 +156,15 @@
     .diff-score { font-size: 11px; font-weight: 700; }
     .diff-plus { color: #f43f5e; }
     .diff-minus { color: #38bdf8; }
-    .card-footer { text-align: right; margin-top: 12px; font-size: 12px; color: #38bdf8; font-weight: 700; }
+    .card-footer {
+      text-align: right;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #38bdf8;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+    }
 
     /* 詳細画面（点棒履歴） */
     .history-section { display: flex; flex-direction: column; gap: 14px; }
@@ -209,27 +235,41 @@
         <div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin: 18px 0 10px 4px;">▼ 現在のリアルタイム速報</div>
         
         <!-- 白卓カード -->
-        <div class="table-card card-white" id="live-white-card" onclick="showDetail('white')">
+        <div class="table-card card-white" id="live-white-card">
           <div class="table-head">
             <span class="table-badge badge-white">⚪ 白 卓</span>
             <span class="current-round" id="white-round">データ待機中</span>
           </div>
+
+          <!-- 白卓の試合タブ（第1試合／第2試合） -->
+          <div class="game-tabs">
+            <button class="game-tab-btn active" id="tab-white-g1" onclick="switchTableGameTab('white', 'game1')">第1試合</button>
+            <button class="game-tab-btn" id="tab-white-g2" onclick="switchTableGameTab('white', 'game2')">第2試合</button>
+          </div>
+
           <div class="players-list" id="white-players">
             <p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">配信の開始を待機しています...</p>
           </div>
-          <div class="card-footer">点棒の動きを見る →</div>
+          <div class="card-footer" onclick="openDetailView('white')">この試合の点棒の動きを見る →</div>
         </div>
 
         <!-- 黒卓カード -->
-        <div class="table-card card-black" id="live-black-card" onclick="showDetail('black')">
+        <div class="table-card card-black" id="live-black-card">
           <div class="table-head">
             <span class="table-badge badge-black">⚫ 黒 卓</span>
             <span class="current-round" id="black-round">データ待機中</span>
           </div>
+
+          <!-- 黒卓の試合タブ（第1試合／第2試合） -->
+          <div class="game-tabs">
+            <button class="game-tab-btn active" id="tab-black-g1" onclick="switchTableGameTab('black', 'game1')">第1試合</button>
+            <button class="game-tab-btn" id="tab-black-g2" onclick="switchTableGameTab('black', 'game2')">第2試合</button>
+          </div>
+
           <div class="players-list" id="black-players">
             <p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">配信の開始を待機しています...</p>
           </div>
-          <div class="card-footer">点棒の動きを見る →</div>
+          <div class="card-footer" onclick="openDetailView('black')">この試合の点棒の動きを見る →</div>
         </div>
       </div>
     </div>
@@ -240,9 +280,16 @@
         <button class="back-btn" onclick="showTop()">← 卓一覧へ戻る</button>
         <span class="status-badge badge-live" id="detail-table-title">白卓 速報</span>
       </div>
-      <div class="page-header" style="text-align: left; margin-bottom: 14px;">
+
+      <!-- 詳細画面内の試合切り替えタブ -->
+      <div class="game-tabs" style="margin-top: 10px;">
+        <button class="game-tab-btn active" id="detail-tab-g1" onclick="switchDetailGameTab('game1')">第1試合 点棒推移</button>
+        <button class="game-tab-btn" id="detail-tab-g2" onclick="switchDetailGameTab('game2')">第2試合 点棒推移</button>
+      </div>
+
+      <div class="page-header" style="text-align: left; margin: 14px 0;">
         <h2 class="main-title" id="detail-heading">点棒推移ログ</h2>
-        <p style="font-size: 12px; color: #64748b;">東1局から現在までの点棒変動履歴</p>
+        <p style="font-size: 12px; color: #64748b;" id="detail-sub-heading">東1局から現在までの点棒変動履歴</p>
       </div>
 
       <div class="history-section" id="history-container"></div>
@@ -255,7 +302,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
-    // ※ あなたのFirebaseプロジェクトIDに書き換えてください
     const firebaseConfig = {
       databaseURL: "https://mleague-monitor-default-rtdb.firebaseio.com"
     };
@@ -263,13 +309,28 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
+    // データストア（卓 × 試合ごとに完全分離）
     let tablesData = {
-      white: { current: null, history: [] },
-      black: { current: null, history: [] }
+      white: {
+        game1: { current: null, history: [] },
+        game2: { current: null, history: [] }
+      },
+      black: {
+        game1: { current: null, history: [] },
+        game2: { current: null, history: [] }
+      }
     };
-    let currentDetailView = null;
-    let scheduleData = null; // schedule.json のキャッシュデータ
 
+    // トップ画面で現在選択しているタブ
+    let activeTopGame = {
+      white: "game1",
+      black: "game1"
+    };
+
+    // 詳細画面で開いている卓と試合
+    let currentDetailTable = "white"; // "white" | "black"
+    let currentDetailGame = "game1";  // "game1" | "game2"
+    let scheduleData = null;
     let activeDate = new Date();
 
     function getTeamClass(name = "") {
@@ -299,7 +360,6 @@
       return `${y}-${m}-${day}`;
     }
 
-    // schedule.json の取得
     async function fetchSchedule() {
       if (scheduleData) return scheduleData;
       try {
@@ -308,7 +368,7 @@
         scheduleData = await res.json();
         return scheduleData;
       } catch (err) {
-        console.error("schedule.json の読み込みに失敗しました:", err);
+        console.error("schedule.json 読み込み失敗:", err);
         return {};
       }
     }
@@ -326,11 +386,7 @@
       document.getElementById("date-tag-text").innerText = isToday ? "【 本 日 】" : "";
       
       const btnToday = document.getElementById("btn-back-today");
-      if (isToday) {
-        btnToday.classList.add("hidden");
-      } else {
-        btnToday.classList.remove("hidden");
-      }
+      if (isToday) btnToday.classList.add("hidden"); else btnToday.classList.remove("hidden");
 
       const badge = document.getElementById("top-status-badge");
       const matchupContainer = document.getElementById("matchup-container");
@@ -352,7 +408,6 @@
         badge.innerHTML = `<span class="status-dot"></span>対局日`;
         noMatchView.classList.add("hidden");
 
-        // 白卓の対戦カード表示
         if (matchDay.white && matchDay.white.teams) {
           const box = document.createElement("div");
           box.className = "matchup-box matchup-box-white";
@@ -367,7 +422,6 @@
           matchupContainer.appendChild(box);
         }
 
-        // 黒卓の対戦カード表示（2卓開催時のみ）
         if (matchDay.black && matchDay.black.teams) {
           const box = document.createElement("div");
           box.className = "matchup-box matchup-box-black";
@@ -382,7 +436,6 @@
           matchupContainer.appendChild(box);
         }
 
-        // 今日の場合、リアルタイム速報カードを表示連動
         if (isToday) {
           liveContainer.classList.remove("hidden");
           if (matchDay.white) liveWhiteCard.classList.remove("hidden"); else liveWhiteCard.classList.add("hidden");
@@ -406,25 +459,29 @@
       }
     }
 
-    // 日付送りボタン（＜ ＞）
-    window.stepDate = function(offset) {
-      activeDate.setDate(activeDate.getDate() + offset);
-      loadMatchForDate(activeDate);
+    // トップ画面の卓内タブ切り替え
+    window.switchTableGameTab = function(tableKey, gameKey) {
+      activeTopGame[tableKey] = gameKey;
+      document.getElementById(`tab-${tableKey}-g1`).classList.toggle("active", gameKey === "game1");
+      document.getElementById(`tab-${tableKey}-g2`).classList.toggle("active", gameKey === "game2");
+      renderTopCard(tableKey);
     };
 
-    // 今日へ戻るボタン
-    window.setToday = function() {
-      activeDate = new Date();
-      loadMatchForDate(activeDate);
-    };
+    // トップ画面の卓カード描画
+    function renderTopCard(tableKey) {
+      const gameKey = activeTopGame[tableKey];
+      const data = tablesData[tableKey][gameKey].current;
+      const roundEl = document.getElementById(`${tableKey}-round`);
+      const playersEl = document.getElementById(`${tableKey}-players`);
 
-    // 卓カードのプレイヤー一覧描画
-    function renderPlayerList(containerId, roundId, data) {
-      if (!data || !data.players) return;
-      document.getElementById(roundId).innerText = data.round || "対局中";
+      if (!data || !data.players) {
+        roundEl.innerText = "データ待機中";
+        playersEl.innerHTML = `<p style="color: #64748b; font-size: 13px; text-align: center; padding: 16px;">${gameKey === 'game1' ? '第1試合' : '第2試合'}のデータはまだありません</p>`;
+        return;
+      }
 
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
+      roundEl.innerText = data.round || "対局中";
+      playersEl.innerHTML = "";
 
       const sorted = [...data.players].sort((a, b) => b.score - a.score);
       sorted.forEach(p => {
@@ -444,21 +501,24 @@
             <div class="diff-score ${diffClass}">${diffText}</div>
           </div>
         `;
-        container.appendChild(row);
+        playersEl.appendChild(row);
       });
     }
 
-    // 点棒推移タイムライン描画
-    function renderHistory(tableKey) {
+    // 詳細画面の点棒推移を描画（白卓と黒卓を完全分離）
+    function renderHistory() {
       const container = document.getElementById("history-container");
-      container.innerHTML = "";
-      const history = tablesData[tableKey].history || [];
+      container.innerHTML = ""; // 確実に前回分をクリア
+
+      // 指定された卓かつ試合のデータのみを抽出
+      const history = tablesData[currentDetailTable][currentDetailGame].history || [];
 
       if (history.length === 0) {
-        container.innerHTML = `<p style="color: #64748b; text-align: center; padding: 30px;">まだ点棒推移データがありません。</p>`;
+        container.innerHTML = `<p style="color: #64748b; text-align: center; padding: 30px;">${currentDetailGame === 'game1' ? '第1試合' : '第2試合'}の点棒データはまだありません。</p>`;
         return;
       }
 
+      // 新しい局が上に来るように降順表示
       [...history].reverse().forEach(item => {
         const card = document.createElement("div");
         card.className = "history-card";
@@ -484,66 +544,100 @@
       });
     }
 
-    // 画面遷移（SPAルーティング）
-    window.showDetail = function(tableKey) {
-      currentDetailView = tableKey;
-      location.hash = tableKey;
+    // 詳細画面を開く
+    window.openDetailView = function(tableKey) {
+      currentDetailTable = tableKey;
+      currentDetailGame = activeTopGame[tableKey]; // トップで見ていた試合を引き継ぐ
+      location.hash = `${tableKey}-${currentDetailGame}`;
+      updateDetailUI();
+    };
+
+    // 詳細画面の試合タブ切り替え
+    window.switchDetailGameTab = function(gameKey) {
+      currentDetailGame = gameKey;
+      location.hash = `${currentDetailTable}-${currentDetailGame}`;
+      updateDetailUI();
+    };
+
+    function updateDetailUI() {
       document.getElementById("view-top").classList.add("hidden");
       document.getElementById("view-detail").classList.remove("hidden");
 
-      const title = tableKey === "white" ? "⚪ 白卓 詳細" : "⚫ 黒卓 詳細";
-      document.getElementById("detail-table-title").innerText = title;
-      document.getElementById("detail-heading").innerText = `${title} 点棒推移`;
+      const tableLabel = currentDetailTable === "white" ? "⚪ 白卓" : "⚫ 黒卓";
+      const gameLabel = currentDetailGame === "game1" ? "第1試合" : "第2試合";
 
-      renderHistory(tableKey);
+      document.getElementById("detail-table-title").innerText = `${tableLabel} ${gameLabel}`;
+      document.getElementById("detail-heading").innerText = `${tableLabel} ${gameLabel} 点棒推移`;
+      document.getElementById("detail-tab-g1").classList.toggle("active", currentDetailGame === "game1");
+      document.getElementById("detail-tab-g2").classList.toggle("active", currentDetailGame === "game2");
+
+      renderHistory();
       window.scrollTo(0, 0);
-    };
+    }
 
     window.showTop = function() {
-      currentDetailView = null;
       location.hash = "";
       document.getElementById("view-detail").classList.add("hidden");
       document.getElementById("view-top").classList.remove("hidden");
       window.scrollTo(0, 0);
     };
 
+    window.stepDate = function(offset) {
+      activeDate.setDate(activeDate.getDate() + offset);
+      loadMatchForDate(activeDate);
+    };
+
+    window.setToday = function() {
+      activeDate = new Date();
+      loadMatchForDate(activeDate);
+    };
+
     window.addEventListener("hashchange", () => {
       const hash = location.hash.replace("#", "");
-      if (hash === "white" || hash === "black") {
-        showDetail(hash);
+      if (hash.startsWith("white") || hash.startsWith("black")) {
+        const parts = hash.split("-");
+        currentDetailTable = parts[0];
+        currentDetailGame = parts[1] || "game1";
+        updateDetailUI();
       } else {
         showTop();
       }
     });
 
-    // Firebase リアルタイム同期
-    ["white", "black"].forEach(key => {
-      onValue(ref(db, `tables/${key}`), (snapshot) => {
-        const val = snapshot.val();
-        if (!val) return;
+    // Firebase リアルタイム同期（卓 × 第1・第2試合を全てリッスン）
+    ["white", "black"].forEach(tKey => {
+      ["game1", "game2"].forEach(gKey => {
+        onValue(ref(db, `tables/${tKey}/${gKey}`), (snapshot) => {
+          const val = snapshot.val();
+          if (val) {
+            const historyList = val.history ? Object.values(val.history) : [];
+            tablesData[tKey][gKey] = {
+              current: val.current || null,
+              history: historyList
+            };
 
-        const historyList = val.history ? Object.values(val.history) : [];
-        tablesData[key] = {
-          current: val.current || null,
-          history: historyList
-        };
+            // 第2試合のデータが届いたら自動的にトップのタブを第2試合に合わせる
+            if (gKey === "game2" && val.current && !tablesData[tKey].hasAutoSwitched) {
+              activeTopGame[tKey] = "game2";
+              document.getElementById(`tab-${tKey}-g1`).classList.remove("active");
+              document.getElementById(`tab-${tKey}-g2`).classList.add("active");
+              tablesData[tKey].hasAutoSwitched = true;
+            }
+          } else {
+            tablesData[tKey][gKey] = { current: null, history: [] };
+          }
 
-        if (val.current) {
-          renderPlayerList(`${key}-players`, `${key}-round`, val.current);
-        }
-
-        if (currentDetailView === key) {
-          renderHistory(key);
-        }
+          // 画面更新
+          renderTopCard(tKey);
+          if (!document.getElementById("view-detail").classList.contains("hidden") &&
+              currentDetailTable === tKey && currentDetailGame === gKey) {
+            renderHistory();
+          }
+        });
       });
     });
 
-    // 初期化実行
     loadMatchForDate(activeDate);
-
-    if (location.hash === "#white" || location.hash === "#black") {
-      showDetail(location.hash.replace("#", ""));
-    }
   </script>
 </body>
 </html>
