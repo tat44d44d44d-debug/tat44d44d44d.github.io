@@ -137,7 +137,7 @@
     .badge-black { background: #1e1b4b; color: #a5b4fc; border: 1px solid #4338ca; }
     .current-round { font-size: 16px; font-weight: 800; color: #38bdf8; }
 
-    /* プレイヤー行（東南西北の風バッジを追加） */
+    /* プレイヤー行 */
     .players-list { display: flex; flex-direction: column; gap: 8px; }
     .player-row {
       display: flex;
@@ -161,7 +161,7 @@
       background: #334155;
       color: #94a3b8;
     }
-    .wind-east { background: #ea580c; color: #ffffff; } /* 東家（親）はオレンジ強調 */
+    .wind-east { background: #ea580c; color: #ffffff; }
     .player-meta { display: flex; flex-direction: column; }
     .team-name { font-size: 11px; color: #94a3b8; font-weight: 700; }
     .player-name { font-size: 15px; font-weight: 700; color: #f1f5f9; }
@@ -235,7 +235,7 @@
         <div class="no-match-desc" id="no-match-reason">この日に予定されているMリーグの対局はありません。</div>
       </div>
 
-      <!-- 卓状況（当日または過去の対局結果を表示） -->
+      <!-- 卓状況（当日または過去の対局結果） -->
       <div id="live-tables-container" class="hidden">
         <div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin: 18px 0 10px 4px;" id="live-section-title">▼ 試合スコア・点棒状況</div>
         
@@ -321,7 +321,7 @@
     let currentDetailGame = "game1";
     let scheduleData = null;
     let activeDate = new Date();
-    let currentListeners = []; // 日付変更時に解除するリスナー群
+    let currentListeners = [];
 
     function getTeamClass(name = "") {
       if (name.includes("ABEMAS")) return "team-abemas";
@@ -363,9 +363,7 @@
       }
     }
 
-    // 指定日のFirebaseデータを監視（過去日付・当日問わず動的にリスナーを切り替え）
     function setupFirebaseForDate(dateKey) {
-      // 既存のリスナーを解除してリセット
       currentListeners.forEach(unsub => unsub());
       currentListeners = [];
 
@@ -386,7 +384,7 @@
                 history: historyList
               };
 
-              // 第2試合データがあれば自動でタブを第2試合に切り替え
+              // 第2試合データが初めて届いた時のみトップを第2試合に自動切替
               if (gKey === "game2" && val.current && !tablesData[tKey].hasAutoSwitched) {
                 activeTopGame[tKey] = "game2";
                 document.getElementById(`tab-${tKey}-g1`).classList.remove("active");
@@ -408,7 +406,6 @@
       });
     }
 
-    // 該当年月日の対戦カードを描画
     async function loadMatchForDate(targetDate) {
       const isToday = isSameDate(targetDate, new Date());
       const year = targetDate.getFullYear();
@@ -437,8 +434,6 @@
       const matchDay = schedule[dateKey];
 
       matchupContainer.innerHTML = "";
-
-      // Firebaseのリスナーを選択した日付へ切り替え
       setupFirebaseForDate(dateKey);
 
       if (matchDay && (matchDay.white || matchDay.black)) {
@@ -474,7 +469,6 @@
           matchupContainer.appendChild(box);
         }
 
-        // 対局がある日は過去日付でもスコアボードを表示
         liveContainer.classList.remove("hidden");
         document.getElementById("live-section-title").innerText = isToday ? "▼ 現在のリアルタイム速報" : "▼ この日の対局結果・点棒状況";
         if (matchDay.white) liveWhiteCard.classList.remove("hidden"); else liveWhiteCard.classList.add("hidden");
@@ -503,7 +497,6 @@
       renderTopCard(tableKey);
     };
 
-    // トップ画面の卓カード描画（東家・南家・西家・北家バッジ付き）
     function renderTopCard(tableKey) {
       const gameKey = activeTopGame[tableKey];
       const data = tablesData[tableKey][gameKey].current;
@@ -545,19 +538,33 @@
       });
     }
 
-    // 詳細画面の点棒推移を描画（座順表示対応）
+    // 詳細画面の点棒推移を描画（重複除外フィルタ付き）
     function renderHistory() {
       const container = document.getElementById("history-container");
       container.innerHTML = "";
 
-      const history = tablesData[currentDetailTable][currentDetailGame].history || [];
+      const rawHistory = tablesData[currentDetailTable][currentDetailGame].history || [];
 
-      if (history.length === 0) {
+      // 【重複除外フィルタ】直前の履歴と局・点数が全く同じレコードをスキップし、点数が動いた瞬間のみ抽出
+      const filteredHistory = [];
+      let lastSignature = "";
+
+      rawHistory.forEach(item => {
+        const sorted = [...(item.players || [])].sort((a, b) => (a.name || "").localeCompare(b.name || "", 'ja'));
+        const sig = `${item.round}_` + sorted.map(p => `${p.name}:${p.score}`).join(",");
+        if (sig !== lastSignature) {
+          filteredHistory.push(item);
+          lastSignature = sig;
+        }
+      });
+
+      if (filteredHistory.length === 0) {
         container.innerHTML = `<p style="color: #64748b; text-align: center; padding: 30px;">${currentDetailGame === 'game1' ? '第1試合' : '第2試合'}の点棒データはありません。</p>`;
         return;
       }
 
-      [...history].reverse().forEach(item => {
+      // 新しい局が上に来るように降順表示
+      [...filteredHistory].reverse().forEach(item => {
         const card = document.createElement("div");
         card.className = "history-card";
 
