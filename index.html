@@ -235,7 +235,7 @@
         <div class="no-match-desc" id="no-match-reason">この日に予定されているMリーグの対局はありません。</div>
       </div>
 
-      <!-- 卓状況（当日または過去の対局結果） -->
+      <!-- 卓状況 -->
       <div id="live-tables-container" class="hidden">
         <div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin: 18px 0 10px 4px;" id="live-section-title">▼ 試合スコア・点棒状況</div>
         
@@ -384,7 +384,6 @@
                 history: historyList
               };
 
-              // 第2試合データが初めて届いた時のみトップを第2試合に自動切替
               if (gKey === "game2" && val.current && !tablesData[tKey].hasAutoSwitched) {
                 activeTopGame[tKey] = "game2";
                 document.getElementById(`tab-${tKey}-g1`).classList.remove("active");
@@ -477,7 +476,7 @@
       } else {
         badge.className = "status-badge badge-off";
         badge.innerHTML = `対局なし`;
-        noMatchView.classList.remove("hidden");
+        noMatchView.classList.add("hidden");
         liveContainer.classList.add("hidden");
 
         if (isToday) {
@@ -538,20 +537,23 @@
       });
     }
 
-    // 詳細画面の点棒推移を描画（重複除外フィルタ付き）
+    // 詳細画面の点棒推移を描画（変動があった瞬間のみを厳選して表示）
     function renderHistory() {
       const container = document.getElementById("history-container");
       container.innerHTML = "";
 
       const rawHistory = tablesData[currentDetailTable][currentDetailGame].history || [];
 
-      // 【重複除外フィルタ】直前の履歴と局・点数が全く同じレコードをスキップし、点数が動いた瞬間のみ抽出
+      // 【完全な重複除外フィルター】
+      // 局名と4名の選手名・点数がすべて一致する連続レコードをまとめ、実際に変動があった瞬間のみ抽出
       const filteredHistory = [];
       let lastSignature = "";
 
       rawHistory.forEach(item => {
-        const sorted = [...(item.players || [])].sort((a, b) => (a.name || "").localeCompare(b.name || "", 'ja'));
+        if (!item || !item.players) return;
+        const sorted = [...item.players].sort((a, b) => (a.name || "").localeCompare(b.name || "", 'ja'));
         const sig = `${item.round}_` + sorted.map(p => `${p.name}:${p.score}`).join(",");
+        
         if (sig !== lastSignature) {
           filteredHistory.push(item);
           lastSignature = sig;
