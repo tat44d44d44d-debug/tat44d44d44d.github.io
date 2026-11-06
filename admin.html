@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-LEAGUE 管理者修正パネル</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #0b0f19; color: #f1f5f9; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    h1 { font-size: 20px; margin-bottom: 16px; color: #38bdf8; text-align: center; }
+    
+    /* ログイン画面 */
+    #login-box {
+      background: #151d30; padding: 24px; border-radius: 12px; border: 1px solid #1e293b; text-align: center; margin-top: 40px;
+    }
+    input, select {
+      width: 100%; padding: 10px; margin: 8px 0 16px 0; background: #1a233a; border: 1px solid #334155; color: #fff; border-radius: 8px; font-size: 14px;
+    }
+    button {
+      background: #0284c7; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;
+    }
+    button:hover { background: #0369a1; }
+
+    /* 管理パネル */
+    #admin-panel { margin-top: 20px; }
+    .card { background: #151d30; padding: 16px; border-radius: 12px; border: 1px solid #1e293b; margin-bottom: 16px; }
+    .label { font-size: 13px; color: #94a3b8; font-weight: bold; margin-bottom: 4px; display: block; }
+    .player-edit-row { display: grid; grid-template-columns: 2fr 1.5fr 1fr; gap: 8px; margin-bottom: 8px; align-items: center; }
+    .success-msg { color: #10b981; font-size: 13px; text-align: center; margin-top: 8px; font-weight: bold; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>M-LEAGUE 管理修正パネル</h1>
+
+  <!-- ログインフォーム -->
+  <div id="login-box">
+    <p style="margin-bottom: 12px; font-size: 14px; color: #94a3b8;">管理者パスワードを入力してください</p>
+    <input type="password" id="admin-pass" placeholder="パスワード">
+    <button onclick="checkLogin()">ログイン</button>
+    <p id="login-error" style="color: #f43f5e; font-size: 13px; margin-top: 8px;"></p>
+  </div>
+
+  <!-- 管理パネル本編 -->
+  <div id="admin-panel" class="hidden">
+    <div class="card">
+      <span class="label">対象日付</span>
+      <input type="date" id="target-date" onchange="loadCurrentData()">
+
+      <span class="label">卓の選択</span>
+      <select id="target-table" onchange="loadCurrentData()">
+        <option value="white">⚪ 白卓</option>
+        <option value="black">⚫ 黒卓</option>
+      </select>
+
+      <span class="label">試合の選択</span>
+      <select id="target-game" onchange="loadCurrentData()">
+        <option value="game1">第1試合</option>
+        <option value="game2">第2試合</option>
+      </select>
+
+      <span class="label">現在の局・ステータス (例: 南4局2本場 または 終局)</span>
+      <input type="text" id="input-round">
+    </div>
+
+    <div class="card">
+      <span class="label" style="margin-bottom: 12px;">対局者・スコアの手動修正</span>
+      <div id="players-edit-container">
+        <!-- JSで4人分の入力欄を動的生成 -->
+      </div>
+      <button onclick="saveData()" style="margin-top: 12px; background: #10b981;">Firebaseへ上書き保存する</button>
+      <p id="save-status" class="success-msg"></p>
+    </div>
+
+    <button onclick="location.href='index.html'" style="background: #1e293b; border: 1px solid #334155; color: #38bdf8;">速報ボード（index.html）へ戻る</button>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+  import { getDatabase, ref, get, set, push } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+  const firebaseConfig = {
+    databaseURL: "https://mleague-monitor-default-rtdb.firebaseio.com"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // 管理者パスワード（必要に応じて変更してください）
+  const ADMIN_PASSWORD = "mleague_admin_2026";
+  // monitor.js と共通のFirebaseシークレットキー
+  const FIREBASE_SECRET = "8wHR5C8FdtF75PTOaPy5uRD2dlULh6JQLGfXkOSR";
+
+  window.checkLogin = function() {
+    const val = document.getElementById("admin-pass").value;
+    if (val === ADMIN_PASSWORD) {
+      document.getElementById("login-box").classList.add("hidden");
+      document.getElementById("admin-panel").classList.remove("hidden");
+      
+      // 今日の日付をセット
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById("target-date").value = today;
+      loadCurrentData();
+    } else {
+      document.getElementById("login-error").innerText = "パスワードが違います";
+    }
+  };
+
+  window.loadCurrentData = async function() {
+    const dateKey = document.getElementById("target-date").value;
+    const tableKey = document.getElementById("target-table").value;
+    const gameKey = document.getElementById("target-game").value;
+
+    const dbRef = ref(db, `dates/${dateKey}/${tableKey}/${gameKey}/current`);
+    const snapshot = await get(dbRef);
+    const data = snapshot.exists() ? snapshot.val() : null;
+
+    document.getElementById("input-round5") // ダミー
+    document.getElementById("input-round").value = data ? (data.round || "東1局0本場") : "東1局0本場";
+
+    const container = document.getElementById("players-edit-container");
+    container.innerHTML = "";
+
+    // プレイヤーが既存にあればそれを使用、なければ空の4人分を用意
+    const players = (data && data.players) ? data.players : [
+      { wind: "東", team: "", name: "", score: 25000 },
+      { wind: "南", team: "", name: "", score: 25000 },
+      { wind: "西", team: "", name: "", score: 25000 },
+      { wind: "北", team: "", name: "", score: 25000 }
+    ];
+
+    players.forEach((p, i) => {
+      container.innerHTML += `
+        <div class="player-edit-row">
+          <input type="text" value="${p.name || ''}" placeholder="選手名" id="p-name-${i}">
+          <input type="text" value="${p.team || ''}" placeholder="チーム名" id="p-team-${i}">
+          <input type="number" value="${p.score || 25000}" placeholder="点数" id="p-score-${i}">
+          <input type="hidden" value="${p.wind || ['東','南','西','北'][i]}" id="p-wind-${i}">
+        </div>
+      `;
+    });
+  };
+
+  window.saveData = async function() {
+    const dateKey = document.getElementById("target-date").value;
+    const tableKey = document.getElementById("target-table").value;
+    const gameKey = document.getElementById("target-game").value;
+    const roundText = document.getElementById("input-round").value;
+
+    const players = [];
+    for (let i = 0; i < 4; i++) {
+      players.push({
+        wind: document.getElementById(`p-wind-${i}`).value,
+        team: document.getElementById(`p-team-${i}`).value,
+        name: document.getElementById(`p-name-${i}`).value,
+        score: Number(document.getElementById(`p-score-${i}`).value)
+      });
+    }
+
+    const payload = {
+      round: roundText,
+      updatedAt: new Date().toLocaleTimeString() + " (手動修正)",
+      players: players
+    };
+
+    const baseUrl = `https://mleague-monitor-default-rtdb.firebaseio.com/dates/${dateKey}/${tableKey}/${gameKey}`;
+
+    try {
+      // current に PUT
+      await fetch(`${baseUrl}/current.json?auth=${FIREBASE_SECRET}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      // history に POST (修正履歴として残す)
+      await fetch(`${baseUrl}/history.json?auth=${FIREBASE_SECRET}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      document.getElementById("save-status").innerText = "✔ Firebaseへ正常に上書き保存しました！";
+      setTimeout(() => { document.getElementById("save-status").innerText = ""; }, 4000);
+    } catch (err) {
+      alert("保存エラー: " + err.message);
+    }
+  };
+</script>
+
+</body>
+</html>
